@@ -3,7 +3,6 @@ import java.awt.*;
 public class Saab95 extends Car implements ICar {
 
     private boolean turboOn;
-    private double currentSpeed; // The current speed of the car
     
     public Saab95(){
         super(2,125,Color.red,"Saab95");
@@ -31,7 +30,7 @@ public class Saab95 extends Car implements ICar {
     }
 
     public void decrementSpeed(double amount){
-        currentSpeed = getCurrentSpeed() - speedFactor() * amount;
+        setCurrentSpeed(getCurrentSpeed() - speedFactor() * amount);
     }
 
     // TODO fix this method according to lab pm
