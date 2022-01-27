@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public abstract class Car implements Movable {
+public abstract class ACar implements Movable {
 
     private int nrDoors; // Number of doors on the car
     private double enginePower; // Engine power of the car
@@ -12,8 +12,15 @@ public abstract class Car implements Movable {
     private int y; // The car's position in the y-axis
     private Direction dir; // The direction the car is moving in
 
-    //Base constructor
-    public Car(int nrDoors, double enginePower, Color color, String modelName){
+    /**
+     * The base constructor for the Car class
+     *
+     * @param nrDoors The number of doors
+     * @param enginePower The power of the engine
+     * @param color The colour of the car
+     * @param modelName The name of the model of the car
+     */
+    public ACar(int nrDoors, double enginePower, Color color, String modelName){
         this.nrDoors = nrDoors;
         this.enginePower = enginePower;
         this.color = color;
@@ -44,6 +51,12 @@ public abstract class Car implements Movable {
     public void setColor(Color clr){
         color = clr;
     }
+
+    /**
+     * Setter for the current speed of the car. Does not allow it to exceed the engine power.
+     *
+     * @param speed The desired value for the speed of the car
+     */
     public void setCurrentSpeed(double speed) {
         currentSpeed = speed;
     }
@@ -56,7 +69,6 @@ public abstract class Car implements Movable {
     public void setDirection(Direction input) {
         dir = input;
     }
-
     public void startEngine(){
         currentSpeed = 0.1;
     }
@@ -66,6 +78,7 @@ public abstract class Car implements Movable {
 
     // Assumes a 2D top down representation where North = Up, East = Right etc.
     public void move() {
+        startEngine();
         switch (getDirection()) {
             case NORTH -> setY(getY()+(int)getCurrentSpeed());
             case SOUTH -> setY(getY()-(int)getCurrentSpeed());
@@ -90,6 +103,30 @@ public abstract class Car implements Movable {
             case EAST -> setDirection(Direction.NORTH);
             case WEST -> setDirection(Direction.SOUTH);
         }
+    }
+
+    public abstract double speedFactor();
+
+    public void incrementSpeed(double amount){
+        double increasedSpeed = Math.min(getCurrentSpeed() + speedFactor() * amount,getEnginePower());
+        if (increasedSpeed > getCurrentSpeed())
+            setCurrentSpeed(increasedSpeed);
+    }
+
+    public void decrementSpeed(double amount){
+        double decreasedSpeed = Math.max(getCurrentSpeed() - speedFactor() * amount,0);
+        if (decreasedSpeed < getCurrentSpeed())
+            setCurrentSpeed(decreasedSpeed);
+    }
+
+    public void gas(double amount){
+        if (amount >= 0 && amount <= 1)
+            incrementSpeed(amount);
+    }
+
+    public void brake(double amount){
+        if (amount >= 0 && amount <= 1)
+            decrementSpeed(amount);
     }
 
     enum Direction {

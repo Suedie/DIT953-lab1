@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Saab95 extends Car implements ICar{
+public class Saab95 extends ACar {
 
     private boolean turboOn;
     
@@ -23,23 +23,5 @@ public class Saab95 extends Car implements ICar{
         double turbo = 1;
         if(turboOn) turbo = 1.3;
         return super.getEnginePower() * 0.01 * turbo;
-    }
-
-    public void incrementSpeed(double amount){
-        setCurrentSpeed(getCurrentSpeed() + speedFactor() * amount);
-    }
-
-    public void decrementSpeed(double amount){
-        setCurrentSpeed(getCurrentSpeed() - speedFactor() * amount);
-    }
-
-    // TODO fix this method according to lab pm
-    public void gas(double amount){
-        incrementSpeed(amount);
-    }
-
-    // TODO fix this method according to lab pm
-    public void brake(double amount){
-        decrementSpeed(amount);
     }
 }
